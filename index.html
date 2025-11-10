@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClothCamp - Premium Clothing Store</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom Tailwind Configuration (for Inter font) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                },
+            },
+        };
+    </script>
+
+    <!-- Google Font (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+
+    <!-- Inline Styles -->
+    <style>
+        /* Apply the Inter font as the default */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Simple transition for buttons and links */
+        button, a {
+            transition: all 0.2s ease-in-out;
+        }
+        /* Custom scrollbar for a cleaner look (optional) */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-inter">
+
+    <!-- ===== HEADER / NAVBAR ===== -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <!-- Logo / Brand Name -->
+            <div id="logo" class="flex items-center text-2xl sm:text-3xl font-bold text-gray-800 cursor-pointer">
+                <!-- Icon -->
+                <svg class="w-8 h-8 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                </svg>
+                Cloth Campus
+            </div>
+
+            <!-- Top Banner Ad -->
+            <div class="hidden lg:block">
+                <ins class="adsbygoogle"
+                     style="display:inline-block;width:728px;height:90px"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-slot="XXXXXXXXXX"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+
+            <!-- Cart Button -->
+            <button id="cart-nav-button" class="relative flex items-center px-4 py-2 bg-black text-white rounded-lg shadow hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50">
+                <!-- Cart Icon (SVG) -->
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                </svg>
+                <span class="ml-2 hidden sm:inline">Cart</span>
+                <!-- Cart Count Badge -->
+                <span id="cart-count-badge" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center hidden">0</span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- ===== MAIN CONTENT AREA ===== -->
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!--
+          Page/View System:
+          We will have 4 "views" (divs) and toggle their visibility with the 'hidden' class.
+          1. #products-view (Default)
+          2. #cart-view
+          3. #checkout-view
+          4. #confirmation-view
+        -->
+
+        <!-- ===== 1. PRODUCTS VIEW ===== -->
+        <div id="products-view">
+            <!-- Top Rectangle Ad -->
+            <div class="mb-6">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-slot="XXXXXXXXXX"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+
+            <h1 class="text-3xl font-bold text-gray-900 mb-6">Our Collection</h1>
+
+            <!-- Product Grid -->
+            <div id="product-list" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Product cards will be dynamically inserted here by JavaScript -->
+                <!-- Example Card Structure:
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="https://placehold.co/600x600/E2E8F0/333?text=Product+Image" alt="Product Name" class="w-full h-64 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-gray-800">Product Name</h3>
+                        <p class="text-lg font-bold text-blue-600 mt-2">$25.00</p>
+                        <button class="add-to-cart-btn mt-4 w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-blue-700" data-id="1">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                -->
+            </div>
+
+            <!-- Bottom Rectangle Ad -->
+            <div class="mt-8">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-slot="XXXXXXXXXX"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+
+        <!-- ===== 2. CART VIEW ===== -->
+        <div id="cart-view" class="hidden">
+            <!-- Cart Top Ad -->
+            <div class="mb-6">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-slot="XXXXXXXXXX"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+
+            <h1 class="text-3xl font-bold text-gray-900 mb-6">Your Shopping Cart</h1>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <!-- Cart Items Container -->
+                <div id="cart-items-container">
+                    <!-- Cart items will be dynamically inserted here -->
+                    <!-- Example Cart Item Structure:
+                    <div class="flex items-center justify-between py-4 border-b">
+                        <div class="flex items-center space-x-4">
+                            <img src="https://placehold.co/100x100" alt="Product" class="w-16 h-16 rounded-md object-cover">
+                            <div>
+                                <h3 class="text-lg font-semibold">Product Name</h3>
+                                <p class="text-gray-600">$25.00</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <input type="number" value="1" min="1" class="quantity-input w-16 text-center border rounded" data-id="1">
+                            <p class="text-lg font-semibold">$25.00</p>
+                            <button class="remove-from-cart-btn text-red-600 hover:text-red-800" data-id="1">&times;</button>
+                        </div>
+                    </div>
+                    -->
+                </div>
+
+                <!-- Cart Total -->
+                <div id="cart-summary" class="mt-6 border-t pt-6">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xl font-medium text-gray-700">Subtotal</span>
+                        <span id="cart-subtotal" class="text-2xl font-bold text-gray-900">₹0</span>
+                    </div>
+                    <div id="cart-discount-row" class="flex justify-between items-center mt-2 hidden">
+                        <span class="text-green-600 font-medium">40% Discount</span>
+                        <span id="cart-discount" class="text-green-600 font-medium">-₹0</span>
+                    </div>
+                    <div class="flex justify-between items-center mt-2">
+                        <span class="text-gray-600">Shipping</span>
+                        <span id="cart-shipping" class="font-medium">₹50</span>
+                    </div>
+                    <div class="flex justify-between items-center mt-2 text-lg font-bold">
+                        <span>Total</span>
+                        <span id="cart-total" class="text-xl">₹0</span>
+                    </div>
+                    <div id="progress-to-discount" class="mt-3">
+                        <p class="text-gray-500 text-sm">Add ₹<span id="remaining-for-discount">1000</span> more for 40% off!</p>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                            <div id="discount-progress-bar" class="bg-green-500 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <p class="text-gray-500 text-sm mt-2">Free shipping on orders over ₹500</p>
+                    <div class="flex flex-col sm:flex-row sm:justify-end sm:space-x-4 mt-6">
+                        <button id="clear-cart-btn" class="w-full sm:w-auto mb-2 sm:mb-0 px-6 py-3 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700">
+                            Clear Cart
+                        </button>
+                        <button id="go-to-checkout-btn" class="w-full sm:w-auto px-6 py-3 bg-black text-white rounded-lg font-medium hover:bg-gray-800">
+                            Proceed to Checkout
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Empty Cart Message -->
+                <div id="empty-cart-message" class="hidden text-center py-12">
+                    <svg class="w-16 h-16 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    <h2 class="text-2xl font-semibold text-gray-700 mt-4">Your cart is empty</h2>
+                    <p class="text-gray-500 mt-2">Looks like you haven't added anything to your cart yet.</p>
+                    <button id="cart-back-to-shop-btn" class="mt-6 px-6 py-2 bg-black text-white rounded-lg font-medium hover:bg-gray-800">
+                        Continue Shopping
+                    </button>
+                </div>
+            </div>
+
+            <!-- Cart Bottom Ad -->
+            <div class="mt-8">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-slot="XXXXXXXXXX"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+
+        <!-- ===== 3. CHECKOUT VIEW ===== -->
+        <div id="checkout-view" class="hidden">
+            <!-- Checkout Top Ad -->
+            <div class="mb-6">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-slot="XXXXXXXXXX"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+
+            <h1 class="text-3xl font-bold text-gray-900 mb-6">Checkout</h1>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Checkout Form -->
+                <form id="checkout-form" class="lg:col-span-2 bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-semibold mb-4">Shipping Information</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                            <input type="text" id="name" name="name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                            <input type="email" id="email" name="email" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number (for COD)</label>
+                            <input type="tel" id="phone" name="phone" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                            <input type="text" id="address" name="address" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                        </div>
+                        <div>
+                            <label for="city" class="block text-sm font-medium text-gray-700">City</label>
+                            <input type="text" id="city" name="city" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                        </div>
+                        <div>
+                            <label for="zip" class="block text-sm font-medium text-gray-700">ZIP / Postal Code</label>
+                            <input type="text" id="zip" name="zip" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                        </div>
+                    </div>
+
+                    <h2 class="text-xl font-semibold mt-8 mb-4">Payment Method</h2>
+                    <div class="bg-gray-100 border border-gray-200 rounded-md p-4">
+                        <div class="flex items-center">
+                            <input id="cod" name="payment-method" type="radio" checked class="h-4 w-4 text-black border-gray-300" disabled>
+                            <label for="cod" class="ml-3 block text-sm font-medium text-gray-700">
+                                Cash on Delivery (COD)
+                            </label>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2 ml-7">Pay with cash upon delivery of your order.</p>
+                    </div>
+                </form>
+
+                <!-- Order Summary -->
+                <div class="lg:col-span-1 bg-white rounded-lg shadow-md p-6 h-fit sticky top-28">
+                    <h2 class="text-xl font-semibold mb-4">Order Summary</h2>
+                    <div id="checkout-summary-items" class="space-y-4 max-h-64 overflow-y-auto pr-2">
+                        <!-- Checkout summary items inserted here -->
+                    </div>
+                    <div class="border-t mt-4 pt-4 space-y-2">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Subtotal</span>
+                            <span id="checkout-subtotal" class="font-medium">₹0</span>
+                        </div>
+                        <div id="checkout-discount-row" class="flex justify-between hidden">
+                            <span class="text-green-600">40% Discount</span>
+                            <span id="checkout-discount" class="text-green-600">-₹0</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Shipping</span>
+                            <span id="checkout-shipping" class="font-medium">₹50</span>
+                        </div>
+                        <div class="flex justify-between text-lg font-bold">
+                            <span>Total</span>
+                            <span id="checkout-total">₹0</span>
+                        </div>
+                    </div>
+                    <button type="submit" form="checkout-form" id="place-order-btn" class="mt-6 w-full bg-black text-white py-3 px-4 rounded-lg font-semibold hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50">
+                        Place Order
+                    </button>
+                </div>
+            </div>
+
+            <!-- Checkout Bottom Ad -->
+            <div class="mt-8">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-slot="XXXXXXXXXX"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+
+        <!-- ===== 4. CONFIRMATION VIEW ===== -->
+        <div id="confirmation-view" class="hidden">
+            <!-- Confirmation Top Ad -->
+            <div class="mb-6">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-slot="XXXXXXXXXX"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-10 max-w-2xl mx-auto text-center">
+                <!-- Success Icon (SVG) -->
+                <svg class="w-20 h-20 mx-auto text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <h1 class="text-3xl font-bold text-gray-900 mt-6 mb-4">Thank you for your order!</h1>
+                <p class="text-lg text-gray-600">Your order has been placed successfully.</p>
+                <p class="text-lg text-gray-600 mt-2">You will pay with <span class="font-semibold">Cash on Delivery</span>.</p>
+                <div id="confirmation-details" class="mt-6 text-left bg-gray-50 p-4 rounded-md">
+                    <h3 class="text-lg font-semibold mb-2">Order Summary</h3>
+                    <p><strong>Name:</strong> <span id="conf-name"></span></p>
+                    <p><strong>Address:</strong> <span id="conf-address"></span></p>
+                    <p><strong>Total:</strong> ₹<span id="conf-total" class="font-bold"></span></p>
+                </div>
+                <button id="back-to-home-btn" class="mt-8 w-full sm:w-auto px-10 py-3 bg-black text-white rounded-lg font-medium hover:bg-gray-800">
+                    Continue Shopping
+                </button>
+            </div>
+
+            <!-- Confirmation Bottom Ad -->
+            <div class="mt-8">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-slot="XXXXXXXXXX"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ===== FLOATING DISCOUNT PROGRESS BAR ===== -->
+    <div id="floating-discount-bar" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg p-4 transform translate-y-full transition-transform duration-300 z-40 hidden">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between">
+                <div class="flex-1 mr-4">
+                    <p class="text-sm text-gray-600 mb-1">Add ₹<span id="floating-remaining">1000</span> more for 40% off!</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div id="floating-progress-bar" class="bg-green-500 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                </div>
+                <button id="close-floating-bar" class="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="bg-gray-800 text-gray-300 mt-12">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Footer Ad -->
+            <div class="mb-6">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-slot="XXXXXXXXXX"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+
+            <div class="text-center">
+                <p>&copy; 2023 Cloth Campus. All rights reserved.</p>
+                <p class="text-sm text-gray-400 mt-2">A demo e-commerce site.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- STATE ---
+            // The cart will be an array of product objects
+            let cart = [];
+            // Pagination state
+            let currentPage = 1;
+            const itemsPerPage = 10;
+
+            // Mock product data - dynamically generated for all images
+            const imageFiles = [
+                "0a26b5e24310ba6a4080549df17b2587.jpg",
+                "0b35209a1c6db9240ea2c95bc06a9c77.jpg",
+                "0ec7f35c1ac08fef410300897ea89ed1.jpg",
+                "1b14d6c8c72f39f670ccceb69d437146.jpg",
+                "1bedc6e30b10b398c39027cea0e9e5a3.jpg",
+                "3bd4c9280604db81718d2cdd0f13b328.jpg",
+                "3e197dbf1c647d943e95315614fda6cb.jpg",
+                "5cd47334848fa54febc89b9e2aab4838.jpg",
+                "6d1f4063933444e429811b629cb40122.jpg",
+                "9dce0822175185e0b09bc3b2a6a1bc73.jpg",
+                "9ff7f866bfdb2f9b122ec94c7ce2c4b2.jpg",
+                "23f0f6a8fb50121425cf0bc5bc77f783.jpg",
+                "044a517a7f1d23edef778c8a00cb4ce5.jpg",
+                "45fb6a1947278ca7f8f5e251fe1e8c7d.jpg",
+                "056e837fb652d10d029052d0d3285b3c.jpg",
+                "57f4e8874a2aaade4f977e4545cb5a6e.jpg",
+                "69c803e64147c1cfd85b2994307b1a93.jpg",
+                "74fdf3fd9f53b4d9f731c697ddaf82cc.jpg",
+                "76f9be532efa43f0205de2e4ca2bf295.jpg",
+                "77df49d1aa737e54152a5313e9403e5b.jpg",
+                "97b55d870705b82c4d4eb35cd680b92c.jpg",
+                "124db166b2128e88eed16c291a971cbc.jpg",
+                "275e4fafe8a2fbc9becd0055ca6bc635.jpg",
+                "279b751ec9b9713628258bcc6f0d92d5.jpg",
+                "591cdb036aef743bd570ba898b3ed9cb.jpg",
+                "779fd560ed7a0db0d04d55c9b3c3246c.jpg",
+                "817c7e02cc80a192250886de4fa515a5.jpg",
+                "3824b281c386fa011e59f5a3dade0943.jpg",
+                "4000fc4d32339b5a69ef667e4211cc1e.jpg",
+                "7406ffe68f296b25cb19224669d544a2.jpg",
+                "9726c8dfeb366058540015a12fb44587.jpg",
+                "15687c8ee70828d7fcaf9a63b8a0f692.jpg",
+                "61507c34f3518ceaaad05fbecc8a762f.jpg",
+                "84149b66289a30437ff68b0abd0342a6.jpg",
+                "868840a2853764d5dc43b93cfaac33d9.0000000.jpg",
+                "780252862336851c56c789ed6b70b9ef.jpg",
+                "11673728616197313411bcd95964bc77.jpg",
+                "a1a54695cf7d78be6791c65ff0fa731e.jpg",
+                "a05bc0a8b509282012184f22853760b3.jpg",
+                "a5bec06cbfa2ebace36aec1875ae42c5.jpg",
+                "a714b261987db5c0253c23d0c8ec5e84.jpg",
+                "aa973704d33cadbe9a7f626563f22265.jpg",
+                "aeda04a42efde21c8caca2b3c69f351c.jpg",
+                "b27e7d820f6ca4ae71a849e457e0bfd0.jpg",
+                "ba432f44d867fa0399b671049f3cfb5d.jpg",
+                "bdea1b40012fa4ccb77e10ca39944966.jpg",
+                "c0c68c7fdc9b7fa44a3bcdcb565cd456.jpg",
+                "c7bc135e2e6ba2ed317e431b542bbb03.jpg",
+                "c58bed6ff64dbc7b42818a67a7ce95bf.jpg",
+                "c79f005c7da6b2712881dde5957509c7.jpg",
+                "c6894db66982883478c3e9200c425a1a.jpg",
+                "ced338f089b93a09f854ba2994926293.jpg",
+                "d9ae82325d5d22fdca08e6fa68cb1602.jpg",
+                "d9faac69a610fc98e976069527813eeb.jpg",
+                "d78d83f0ec6a92bf33ad0a3911c25ef5.jpg",
+                "d90e9dab9bf09904856809f6dc4fc208.jpg",
+                "d753984e5e7c84bb3eeab1b7317fe799.jpg",
+                "de7fb2f12d2c2055f29835992c941cdb.jpg",
+                "e6f5a5c791b80ac98650dc1c8dd436a9.jpg",
+                "e197aa56b62bf9aba6e89a274aaaf9a9.jpg",
+                "e769a15783e5ef1de6a5575e7810260c.jpg",
+                "e4050acf5f27b049d14587c3228f236a.jpg",
+                "edb1d4e66877f2a51e11b55c9023df62.jpg",
+                "f4ba9f2cecac29ce407cc1a9a317bd74.jpg",
+                "f6ad728ee22efaec326e2be7c383fc12.jpg",
+                "f17c6852511ca0214d12a26168463dfe.jpg",
+                "f93eeac8630a7e5d41fc495c30867898.jpg",
+                "f97f3dec535658b198b231d5747a219a.jpg",
+                "f0881c15cf2588232c35d809b3758829.jpg",
+                "fcee9da45c187a1cc764deb756e7915e.jpg",
+                "fd6ccd20e68174637dd0eb7499936a20.jpg",
+                "fdb00ba5a742c3de160beae4d5c67c27.jpg"
+            ];
+
+            const products = imageFiles.map((file, index) => ({
+                id: index + 1,
+                name: `Product ${index + 1}`,
+                price: 279, // Fixed price in rupees
+                image: `assets/products/${file}`
+            }));
+
+            // --- DOM SELECTORS ---
+            const productListEl = document.getElementById('product-list');
+
+            // Views
+            const productsView = document.getElementById('products-view');
+            const cartView = document.getElementById('cart-view');
+            const checkoutView = document.getElementById('checkout-view');
+            const confirmationView = document.getElementById('confirmation-view');
+
+            // Cart elements
+            const cartCountBadge = document.getElementById('cart-count-badge');
+            const cartItemsContainer = document.getElementById('cart-items-container');
+            const cartSubtotalEl = document.getElementById('cart-subtotal');
+            const cartDiscountRowEl = document.getElementById('cart-discount-row');
+            const cartDiscountEl = document.getElementById('cart-discount');
+            const cartShippingEl = document.getElementById('cart-shipping');
+            const cartTotalEl = document.getElementById('cart-total');
+            const progressToDiscountEl = document.getElementById('progress-to-discount');
+            const remainingForDiscountEl = document.getElementById('remaining-for-discount');
+            const discountProgressBarEl = document.getElementById('discount-progress-bar');
+            const cartSummaryEl = document.getElementById('cart-summary');
+            const emptyCartMessageEl = document.getElementById('empty-cart-message');
+
+            // Checkout elements
+            const checkoutForm = document.getElementById('checkout-form');
+            const checkoutSummaryItemsEl = document.getElementById('checkout-summary-items');
+            const checkoutSubtotalEl = document.getElementById('checkout-subtotal');
+            const checkoutDiscountRowEl = document.getElementById('checkout-discount-row');
+            const checkoutDiscountEl = document.getElementById('checkout-discount');
+            const checkoutShippingEl = document.getElementById('checkout-shipping');
+            const checkoutTotalEl = document.getElementById('checkout-total');
+
+            // Confirmation elements
+            const confName = document.getElementById('conf-name');
+            const confAddress = document.getElementById('conf-address');
+            const confTotal = document.getElementById('conf-total');
+
+            // Buttons
+            const logoButton = document.getElementById('logo');
+            const cartNavButton = document.getElementById('cart-nav-button');
+            const clearCartButton = document.getElementById('clear-cart-btn');
+            const goToCheckoutButton = document.getElementById('go-to-checkout-btn');
+            const cartBackToShopButton = document.getElementById('cart-back-to-shop-btn');
+            const backToHomeButton = document.getElementById('back-to-home-btn');
+
+            // Floating discount bar elements
+            const floatingDiscountBar = document.getElementById('floating-discount-bar');
+            const floatingRemainingEl = document.getElementById('floating-remaining');
+            const floatingProgressBarEl = document.getElementById('floating-progress-bar');
+            const closeFloatingBarBtn = document.getElementById('close-floating-bar');
+
+
+            // --- FUNCTIONS ---
+
+            /**
+             * Manages which view is visible
+             * @param {string} viewName - 'products', 'cart', 'checkout', 'confirmation'
+             */
+            function showView(viewName) {
+                productsView.classList.add('hidden');
+                cartView.classList.add('hidden');
+                checkoutView.classList.add('hidden');
+                confirmationView.classList.add('hidden');
+
+                if (viewName === 'products') {
+                    productsView.classList.remove('hidden');
+                } else if (viewName === 'cart') {
+                    renderCart(); // Re-render cart every time we view it
+                    cartView.classList.remove('hidden');
+                } else if (viewName === 'checkout') {
+                    renderCheckoutSummary();
+                    checkoutView.classList.remove('hidden');
+                } else if (viewName === 'confirmation') {
+                    confirmationView.classList.remove('hidden');
+                }
+
+                // Update URL hash for back/forward navigation
+                if (viewName !== 'products') {
+                    location.hash = viewName;
+                } else {
+                    location.hash = '';
+                }
+
+                // Scroll to top on view change
+                window.scrollTo(0, 0);
+            }
+
+            /**
+             * Renders products for the current page
+              */
+             function renderProducts() {
+                 productListEl.innerHTML = ''; // Clear existing products
+
+                 const startIndex = (currentPage - 1) * itemsPerPage;
+                 const endIndex = startIndex + itemsPerPage;
+                 const productsToShow = products.slice(startIndex, endIndex);
+
+                 productsToShow.forEach(product => {
+                     const card = document.createElement('div');
+                     card.className = 'bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300';
+                     card.innerHTML = `
+                         <img src="${product.image}" alt="${product.name}" class="w-full h-100 object-cover">
+                         <div class="p-4">
+                             <h3 class="text-xl font-semibold text-gray-800">${product.name}</h3>
+                             <p class="text-lg font-bold text-black mt-2">₹${product.price}</p>
+                             <button class="add-to-cart-btn mt-4 w-full bg-black text-white py-2 px-4 rounded-lg font-medium hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50" data-id="${product.id}">
+                                 Add to Cart
+                             </button>
+                         </div>
+                     `;
+                     productListEl.appendChild(card);
+                 });
+
+                 renderPagination();
+             }
+
+            /**
+             * Renders pagination controls
+             */
+            function renderPagination() {
+                 // Remove existing pagination if any
+                 const existingPagination = document.getElementById('pagination-controls');
+                 if (existingPagination) {
+                     existingPagination.remove();
+                 }
+
+                 const totalPages = Math.ceil(products.length / itemsPerPage);
+
+                 if (totalPages <= 1) return; // Don't show pagination if only one page
+
+                 const paginationDiv = document.createElement('div');
+                 paginationDiv.id = 'pagination-controls';
+                 paginationDiv.className = 'flex justify-center items-center space-x-2 mt-8';
+
+                 // Previous button
+                 if (currentPage > 1) {
+                     const prevBtn = document.createElement('button');
+                     prevBtn.textContent = 'Previous';
+                     prevBtn.className = 'px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500';
+                     prevBtn.onclick = () => {
+                         currentPage--;
+                         renderProducts();
+                         window.scrollTo(0, 0);
+                     };
+                     paginationDiv.appendChild(prevBtn);
+                 }
+
+                 // Page numbers
+                 const startPage = Math.max(1, currentPage - 2);
+                 const endPage = Math.min(totalPages, currentPage + 2);
+
+                 for (let i = startPage; i <= endPage; i++) {
+                     const pageBtn = document.createElement('button');
+                     pageBtn.textContent = i;
+                     pageBtn.className = `px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-black ${
+                         i === currentPage
+                             ? 'bg-black text-white'
+                             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                     }`;
+                     pageBtn.onclick = () => {
+                         currentPage = i;
+                         renderProducts();
+                         window.scrollTo(0, 0);
+                     };
+                     paginationDiv.appendChild(pageBtn);
+                 }
+
+                 // Next button
+                 if (currentPage < totalPages) {
+                     const nextBtn = document.createElement('button');
+                     nextBtn.textContent = 'Next';
+                     nextBtn.className = 'px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500';
+                     nextBtn.onclick = () => {
+                         currentPage++;
+                         renderProducts();
+                         window.scrollTo(0, 0);
+                     };
+                     paginationDiv.appendChild(nextBtn);
+                 }
+
+                 // Insert pagination after product list
+                 productListEl.parentNode.insertBefore(paginationDiv, productListEl.nextSibling);
+             }
+
+            /**
+             * Adds a product to the cart
+              * @param {number} productId - The ID of the product to add
+              */
+             function addToCart(productId) {
+                 const product = products.find(p => p.id === productId);
+                 if (!product) return;
+
+                 const cartItem = cart.find(item => item.id === productId);
+
+                 if (cartItem) {
+                     // Item already in cart, increment quantity
+                     cartItem.quantity++;
+                 } else {
+                     // Add new item to cart
+                     cart.push({ ...product, quantity: 1 });
+                 }
+
+                 updateCartBadge();
+                 updateFloatingDiscountBar();
+             }
+
+            /**
+             * Renders the cart items and totals
+             */
+            function renderCart() {
+                if (cart.length === 0) {
+                    emptyCartMessageEl.classList.remove('hidden');
+                    cartSummaryEl.classList.add('hidden');
+                    cartItemsContainer.innerHTML = ''; // Clear any stale items
+                } else {
+                    emptyCartMessageEl.classList.add('hidden');
+                    cartSummaryEl.classList.remove('hidden');
+                    cartItemsContainer.innerHTML = ''; // Clear for re-render
+
+                    let subtotal = 0;
+
+                    cart.forEach(item => {
+                        const itemTotal = item.price * item.quantity;
+                        subtotal += itemTotal;
+
+                        const itemEl = document.createElement('div');
+                        itemEl.className = 'flex flex-col sm:flex-row items-start sm:items-center justify-between py-4 border-b';
+                        itemEl.innerHTML = `
+                            <div class="flex items-center space-x-4 mb-2 sm:mb-0">
+                                <img src="${item.image}" alt="${item.name}" class="w-16 h-16 rounded-md object-cover">
+                                <div>
+                                    <h3 class="text-lg font-semibold">${item.name}</h3>
+                                    <p class="text-gray-600">₹${item.price}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4 w-full sm:w-auto justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <label for="qty-${item.id}" class="text-sm">Qty:</label>
+                                    <input type="number" id="qty-${item.id}" value="${item.quantity}" min="1" class="quantity-input w-16 text-center border rounded p-1" data-id="${item.id}">
+                                </div>
+                                <p class="text-lg font-semibold w-20 text-right">₹${itemTotal}</p>
+                                <button class="remove-from-cart-btn text-red-600 hover:text-red-800 text-2xl font-bold" data-id="${item.id}" title="Remove item">&times;</button>
+                            </div>
+                        `;
+                        cartItemsContainer.appendChild(itemEl);
+                    });
+
+                    const discount = subtotal >= 1000 ? subtotal * 0.4 : 0;
+                    const discountedSubtotal = subtotal - discount;
+
+                    cartSubtotalEl.textContent = `₹${discountedSubtotal}`;
+
+                    if (discount > 0) {
+                        cartDiscountRowEl.classList.remove('hidden');
+                        cartDiscountEl.textContent = `-₹${discount}`;
+                        progressToDiscountEl.classList.add('hidden');
+                    } else {
+                        cartDiscountRowEl.classList.add('hidden');
+                        progressToDiscountEl.classList.remove('hidden');
+                        const remaining = 1000 - subtotal;
+                        const progressPercent = Math.min((subtotal / 1000) * 100, 100);
+                        remainingForDiscountEl.textContent = remaining > 0 ? remaining : 0;
+                        discountProgressBarEl.style.width = `${progressPercent}%`;
+                    }
+
+                    const shipping = discountedSubtotal >= 500 ? 0 : 50;
+                    const total = discountedSubtotal + shipping;
+                    cartShippingEl.textContent = shipping === 0 ? 'Free' : `₹${shipping}`;
+                    cartTotalEl.textContent = `₹${total}`;
+                }
+                updateCartBadge();
+            }
+
+            /**
+             * Renders the order summary on the checkout page
+             */
+            function renderCheckoutSummary() {
+                checkoutSummaryItemsEl.innerHTML = '';
+                let subtotal = 0;
+
+                if(cart.length === 0) {
+                    // This shouldn't happen if navigating via the button, but as a safeguard
+                    checkoutSummaryItemsEl.innerHTML = '<p class="text-gray-500">Your cart is empty.</p>';
+                    checkoutSubtotalEl.textContent = "$0.00";
+                    checkoutTotalEl.textContent = "$0.00";
+                    return;
+                }
+
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    subtotal += itemTotal;
+
+                    const itemEl = document.createElement('div');
+                    itemEl.className = 'flex justify-between items-center';
+                    itemEl.innerHTML = `
+                        <div class="flex items-center space-x-2">
+                            <img src="${item.image}" alt="${item.name}" class="w-10 h-10 rounded-md object-cover">
+                            <div>
+                                <p class="font-medium">${item.name}</p>
+                                <p class="text-sm text-gray-500">Qty: ${item.quantity} × ₹${item.price}</p>
+                            </div>
+                        </div>
+                        <span class="font-medium">₹${itemTotal}</span>
+                    `;
+                    checkoutSummaryItemsEl.appendChild(itemEl);
+                });
+
+                const discount = subtotal >= 1000 ? subtotal * 0.4 : 0;
+                const discountedSubtotal = subtotal - discount;
+
+                checkoutSubtotalEl.textContent = `₹${discountedSubtotal}`;
+
+                if (discount > 0) {
+                    checkoutDiscountRowEl.classList.remove('hidden');
+                    checkoutDiscountEl.textContent = `-₹${discount}`;
+                } else {
+                    checkoutDiscountRowEl.classList.add('hidden');
+                }
+
+                const shipping = discountedSubtotal >= 500 ? 0 : 50;
+                const total = discountedSubtotal + shipping;
+                checkoutShippingEl.textContent = shipping === 0 ? 'Free' : `₹${shipping}`;
+                checkoutTotalEl.textContent = `₹${total}`;
+            }
+
+            /**
+             * Updates the quantity of an item in the cart
+             */
+            function updateCartQuantity(productId, quantity) {
+                const cartItem = cart.find(item => item.id === productId);
+                if (cartItem) {
+                    if (quantity > 0) {
+                        cartItem.quantity = quantity;
+                    } else {
+                        // Remove item if quantity is 0 or less
+                        removeFromCart(productId);
+                    }
+                }
+                renderCart(); // Re-render the cart view
+            }
+
+            /**
+             * Removes an item from the cart
+              */
+             function removeFromCart(productId) {
+                 cart = cart.filter(item => item.id !== productId);
+                 renderCart(); // Re-render the cart view
+                 updateFloatingDiscountBar();
+             }
+
+            /**
+             * Clears all items from the cart
+              */
+             function clearCart() {
+                 cart = [];
+                 renderCart();
+                 updateFloatingDiscountBar();
+             }
+
+            /**
+             * Updates the cart count badge in the header
+              */
+             function updateCartBadge() {
+                 const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+                 if (totalItems > 0) {
+                     cartCountBadge.textContent = totalItems;
+                     cartCountBadge.classList.remove('hidden');
+                 } else {
+                     cartCountBadge.classList.add('hidden');
+                 }
+             }
+
+            /**
+             * Updates the floating discount progress bar
+             */
+            function updateFloatingDiscountBar() {
+                const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+                if (cart.length > 0 && subtotal < 1000) {
+                    const remaining = 1000 - subtotal;
+                    const progressPercent = Math.min((subtotal / 1000) * 100, 100);
+
+                    floatingRemainingEl.textContent = remaining;
+                    floatingProgressBarEl.style.width = `${progressPercent}%`;
+                    floatingDiscountBar.classList.remove('hidden');
+                    floatingDiscountBar.classList.remove('translate-y-full');
+                } else if (subtotal >= 1000) {
+                    floatingDiscountBar.classList.add('hidden');
+                } else {
+                    floatingDiscountBar.classList.add('translate-y-full');
+                    setTimeout(() => {
+                        floatingDiscountBar.classList.add('hidden');
+                    }, 300);
+                }
+            }
+
+            /**
+             * Handles the final order placement
+             */
+            function placeOrder(event) {
+                event.preventDefault(); // Stop form from submitting
+
+                const formData = new FormData(checkoutForm);
+                const customerName = formData.get('name');
+                const customerAddress = `${formData.get('address')}, ${formData.get('city')}, ${formData.get('zip')}`;
+                const orderTotal = checkoutTotalEl.textContent.replace('₹', '');
+
+                // Pass data to confirmation screen
+                confName.textContent = customerName;
+                confAddress.textContent = customerAddress;
+                confTotal.textContent = orderTotal;
+
+                // Clear cart and form
+                cart = [];
+                checkoutForm.reset();
+                updateCartBadge();
+
+                // Show confirmation
+                showView('confirmation');
+            }
+
+
+            // --- EVENT LISTENERS ---
+
+            // Hash change listener for back/forward navigation
+            window.addEventListener('hashchange', () => {
+                const view = location.hash.slice(1) || 'products';
+                showView(view);
+            });
+
+            // Product List Clicks (Event Delegation)
+            productListEl.addEventListener('click', (e) => {
+                if (e.target.classList.contains('add-to-cart-btn')) {
+                    const id = parseInt(e.target.dataset.id);
+                    addToCart(id);
+                    // Add a simple "Added!" feedback
+                    e.target.textContent = 'Added!';
+                    e.target.classList.add('bg-green-500', 'hover:bg-green-500');
+                    setTimeout(() => {
+                        e.target.textContent = 'Add to Cart';
+                        e.target.classList.remove('bg-green-500', 'hover:bg-green-500');
+                    }, 1000);
+                }
+            });
+
+            // Cart Items Clicks & Changes (Event Delegation)
+            cartItemsContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('remove-from-cart-btn')) {
+                    const id = parseInt(e.target.dataset.id);
+                    removeFromCart(id);
+                }
+            });
+
+            cartItemsContainer.addEventListener('change', (e) => {
+                if (e.target.classList.contains('quantity-input')) {
+                    const id = parseInt(e.target.dataset.id);
+                    const qty = parseInt(e.target.value);
+                    updateCartQuantity(id, qty);
+                }
+            });
+
+            // Navigation Buttons
+            logoButton.addEventListener('click', () => {
+                currentPage = 1; // Reset to first page when going back to products
+                showView('products');
+            });
+            cartNavButton.addEventListener('click', () => showView('cart'));
+            cartBackToShopButton.addEventListener('click', () => {
+                currentPage = 1; // Reset to first page when going back to products
+                showView('products');
+            });
+            backToHomeButton.addEventListener('click', () => {
+                currentPage = 1; // Reset to first page when going back to products
+                showView('products');
+            });
+            goToCheckoutButton.addEventListener('click', () => showView('checkout'));
+
+            // Cart Actions
+            clearCartButton.addEventListener('click', clearCart);
+
+            // Checkout
+            checkoutForm.addEventListener('submit', placeOrder);
+
+            // Floating discount bar
+            closeFloatingBarBtn.addEventListener('click', () => {
+                floatingDiscountBar.classList.add('translate-y-full');
+                setTimeout(() => {
+                    floatingDiscountBar.classList.add('hidden');
+                }, 300);
+            });
+
+
+            // --- INITIALIZATION ---
+            renderProducts();
+            // Check if there's a hash in the URL on load
+            const initialView = location.hash.slice(1) || 'products';
+            showView(initialView);
+
+        });
+    </script>
+
+</body>
+</html>

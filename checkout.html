@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Generative Tools</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Checkout</h1>
+    <div id="checkout-list">
+        <!-- Checkout items will be dynamically added here -->
+    </div>
+    <div id="checkout-total">
+        <p>Total: $<span id="checkout-total-price">0.00</span></p>
+    </div>
+    <form id="checkout-form">
+        <input type="text" id="name" placeholder="Full Name" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="text" id="address" placeholder="Address" required>
+        <button type="submit">Complete Purchase</button>
+    </form>
+    <a href="cart.html">Back to Cart</a>
+    <script src="script.js"></script>
+</body>
+</html>
